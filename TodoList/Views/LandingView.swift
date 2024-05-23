@@ -18,7 +18,8 @@ struct LandingView: View {
     @State var searchText = ""
     
     // The list of to-do items
-    @State var todos: [TodoItem] = exampleItems
+    @State var viewModel = TodoListViewModel()
+
     
     // MARK: Computed properties
     var body: some View {
@@ -26,7 +27,7 @@ struct LandingView: View {
             
             VStack {
                 
-                List($todos) { $todo in
+                List($viewModel.todos) { $todo in
                     
                     ItemView(currentItem: $todo)
                         // Delete item
@@ -35,7 +36,7 @@ struct LandingView: View {
                                 "Delete",
                                 role: .destructive,
                                 action: {
-                                    delete(todo)
+                                    viewModel.delete(todo)
                                 }
                             )
                         }
@@ -48,7 +49,7 @@ struct LandingView: View {
                     
                     Button("ADD") {
                         // Add the new to-do item
-                        createToDo(withTitle: newItemDescription)
+                        viewModel.createToDo(withTitle: newItemDescription)
                     }
                     .font(.caption)
                 }
@@ -60,28 +61,6 @@ struct LandingView: View {
         }
     }
     
-    // MARK: Functions
-    func createToDo(withTitle title: String) {
-        
-        // Create the new to-do item instance
-        let todo = TodoItem(
-            title: title,
-            done: false
-        )
-        
-        // Append to the array
-        todos.append(todo)
-        
-    }
-    
-    func delete(_ todo: TodoItem) {
-        
-        // Remove the provided to-do item from the array
-        todos.removeAll { currentItem in
-            currentItem.id == todo.id
-        }
-        
-    }
 }
 
 #Preview {
