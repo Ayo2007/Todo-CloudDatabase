@@ -19,6 +19,9 @@ struct LandingView: View {
     
     // The list of to-do items
     @State var viewModel = TodoListViewModel()
+    
+    // Is the sheet to add a new to-do item showing right now ?
+    @State var presentingNewItemSheet = false
 
     
     // MARK: Computed properties
@@ -61,7 +64,7 @@ struct LandingView: View {
                         newItemDescription = ""
                     }
                     .font(.caption)
-                    .disabled(newItemDescription.isEmpty == true)
+                    .disabled(newItemDescription.trimmingCharacters(in: .whitespaces).isEmpty == true)
                 }
                 .padding(20)
                 
