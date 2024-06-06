@@ -15,6 +15,9 @@ class TodoListViewModel {
     // The list of to-do items
     var todos: [TodoItem]
     
+    // Track when to-do items are intially being fetched
+    var fetchingTodos: Bool = false
+    
     // MARK: Initializer(s)
     init(todos: [TodoItem] = []) {
         self.todos = todos
@@ -27,6 +30,9 @@ class TodoListViewModel {
     // MARK: Functions
     func getTodos() async throws {
         
+        // Indicate that the app is in process of geting to-do items from could
+        fetchingTodos = true
+        
         do {
             let results: [TodoItem] = try await supabase
                 .from("todos")
@@ -36,6 +42,9 @@ class TodoListViewModel {
                 .value
             
             self.todos = results
+            
+            // Finish getting to-do items
+            fetchingTodos = false 
             
         } catch {
             debugPrint(error)

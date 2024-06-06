@@ -28,21 +28,45 @@ struct LandingView: View {
             
             VStack {
                 
-                List($viewModel.todos) { $todo in
+                if viewModel.todos.isEmpty {
+                    if viewModel.fetchingTodos {
+                        
+                        Spacer()
+                        
+                        ProgressView()
+                        
+                        Spacer()
+                        
+                    } else {
+
+                        ContentUnavailableView(
+                            "No to-do items",
+                            systemImage: "pencil.tip.crop.circle.badge.plus",
+                            description: Text("Add a reminder to get started")
+                        )
+
+                    }
+                } else {
                     
-                    ItemView(currentItem: $todo)
-                        // Delete item
-                        .swipeActions {
-                            Button(
-                                "Delete",
-                                role: .destructive,
-                                action: {
-                                    viewModel.delete(todo)
-                                }
-                            )
-                        }
+                    List($viewModel.todos) { $todo in
+                        
+                        ItemView(currentItem: $todo)
+                            // Delete item
+                            .swipeActions {
+                                Button(
+                                    "Delete",
+                                    role: .destructive,
+                                    action: {
+                                        viewModel.delete(todo)
+                                    }
+                                )
+                            }
+                        
+                    }
                     
                 }
+                
+                
                 
                 
                 
