@@ -70,6 +70,12 @@ struct LandingView: View {
                 
             }
             .navigationTitle("To do")
+            .sheet(isPresented: $presentingNewItemSheet) {
+                Text("Hello, world!")
+                    .presentationDetents([.medium, .fraction(0.15)])
+            }
+            
+
             
         }
         .environment(viewModel)
