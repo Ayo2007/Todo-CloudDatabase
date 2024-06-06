@@ -52,12 +52,16 @@ struct LandingView: View {
                 
                 HStack {
                     TextField("Enter a to-do item", text: $newItemDescription)
+            
                     
                     Button("ADD") {
                         // Add the new to-do item
                         viewModel.createToDo(withTitle: newItemDescription)
+                        // Clear the stored property bound to the input textfield
+                        newItemDescription = ""
                     }
                     .font(.caption)
+                    .disabled(newItemDescription.isEmpty == true)
                 }
                 .padding(20)
                 
